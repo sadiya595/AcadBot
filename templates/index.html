@@ -1,0 +1,223 @@
+<!-- index.html (Updated) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K S INSTITUTE OF TECHNOLOGY</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            transition: background-color 0.3s ease;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background-color: white; /* White background for the header */
+            color: #003366; /* Dark blue color for the college name */
+            font-size: 14px; /* Smaller font size for the first line */
+        }
+
+        h2 {
+            text-align: center;
+            color: #003366; /* Dark blue color for K. S. INSTITUTE OF TECHNOLOGY */
+            font-size: 24px; /* Larger font size for the second line */
+            margin: 0;
+            background-color: white; /* Match header background */
+        }
+
+        .logo {
+            position: absolute;
+            top: 10px; /* Adjusted for better alignment */
+            left: 20px; /* Adjusted for better alignment */
+            width: 100px; /* Using fixed pixels can be more reliable */
+            height: auto;
+        }
+
+        .address {
+            text-align: center;
+            color: black;
+            font-size: 14px;
+            margin-top: 10px;
+            padding-bottom: 10px; /* Add some padding */
+            background-color: white; /* Match header background */
+            border-bottom: 1px solid #eee; /* Separator */
+        }
+
+        /* Chat container styling */
+        #chat {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #ffffff;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Message bubble styles */
+        .message {
+            max-width: 70%;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 16px;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .user-message {
+            background-color: #003366;
+            color: white;
+            align-self: flex-end;
+            border-radius: 25px 25px 0 25px;
+        }
+
+        .bot-message {
+            background-color: #d8e2dc;
+            color: #333;
+            align-self: flex-start;
+            border-radius: 25px 25px 25px 0;
+        }
+
+        /* Input container */
+        .input-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #f3f4f6;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #userInput {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        #userInput:focus {
+            border-color: #003366;
+            box-shadow: 0 0 5px rgba(0, 51, 102, 0.5);
+        }
+
+        button {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-left: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px; /* Fixed width */
+            height: 44px; /* Fixed height */
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0055a4;
+        }
+
+        button:active {
+            background-color: #002a52;
+        }
+
+        button svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- This now correctly points to the image in the 'static' folder -->
+    <img src="{{ url_for('static', filename='ksit_logo.jpg') }}" alt="KSIT Logo" class="logo">
+
+    <h1>Kammavari Sangham (R) 1952, K.S.Group of Institutions</h1>
+    <h2>K. S. INSTITUTE OF TECHNOLOGY</h2>
+    <div class="address">
+        No.14, Raghuvanahalli, Kanakapura Road, Bengaluru - 560109,  9900710055 <br>
+        Affiliated to VTU, Belagavi & Approved by AICTE, New Delhi, <span>Accredited by NBA, NAAC & IEI</span>
+    </div>
+
+    <div id="chat"></div>
+
+    <div class="input-container">
+        <input type="text" id="userInput" placeholder="Type your message here..." />
+        <button onclick="sendMessage()">
+            <svg viewBox="0 0 24 24">
+                <path d="M2.01 21L23 12 2.01 3v7l15 2-15 2z"></path>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        // Allow sending message by pressing Enter key
+        document.getElementById("userInput").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+
+        // IMPROVEMENT: This function now creates and appends elements instead of using innerHTML +=
+        async function sendMessage() {
+            const userInput = document.getElementById("userInput");
+            const userMessage = userInput.value;
+            if (!userMessage.trim()) return;
+
+            const chatBox = document.getElementById("chat");
+
+            // Create and append user message
+            const userDiv = document.createElement('div');
+            userDiv.className = 'message user-message';
+            userDiv.textContent = userMessage;
+            chatBox.appendChild(userDiv);
+
+            // Scroll to the bottom
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Clear input field
+            userInput.value = "";
+
+            try {
+                // The fetch request is correct and now matches the backend
+                const response = await fetch(`/get?msg=${encodeURIComponent(userMessage)}`);
+                const data = await response.json();
+
+                // Create and append bot message
+                const botDiv = document.createElement('div');
+                botDiv.className = 'message bot-message';
+                botDiv.textContent = data.response;
+                chatBox.appendChild(botDiv);
+
+                // Scroll to the bottom again
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+            } catch (error) {
+                console.error("Error fetching bot response:", error);
+                
+                // Display an error message in the chat
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'message bot-message';
+                errorDiv.textContent = 'Sorry, something went wrong. Please try again later.';
+                chatBox.appendChild(errorDiv);
+            }
+        }
+    </script>
+</body>
+</html>
