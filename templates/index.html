@@ -1,10 +1,9 @@
-<!-- index.html (Updated) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K S INSTITUTE OF TECHNOLOGY</title>
+    <title>KSIT Virtual Assistant</title>
     <style>
         /* General body styling */
         body {
@@ -15,31 +14,34 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
-            transition: background-color 0.3s ease;
+        }
+
+        .header-container {
+            background-color: white;
+            padding: 10px 20px 20px 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
         }
 
         h1 {
             text-align: center;
             margin: 0;
-            padding: 20px;
-            background-color: white; /* White background for the header */
-            color: #003366; /* Dark blue color for the college name */
-            font-size: 14px; /* Smaller font size for the first line */
+            color: #003366;
+            font-size: 14px;
         }
 
         h2 {
             text-align: center;
-            color: #003366; /* Dark blue color for K. S. INSTITUTE OF TECHNOLOGY */
-            font-size: 24px; /* Larger font size for the second line */
+            color: #003366;
+            font-size: 24px;
             margin: 0;
-            background-color: white; /* Match header background */
         }
 
         .logo {
             position: absolute;
-            top: 10px; /* Adjusted for better alignment */
-            left: 20px; /* Adjusted for better alignment */
-            width: 100px; /* Using fixed pixels can be more reliable */
+            top: 15px;
+            left: 20px;
+            width: 100px;
             height: auto;
         }
 
@@ -48,9 +50,6 @@
             color: black;
             font-size: 14px;
             margin-top: 10px;
-            padding-bottom: 10px; /* Add some padding */
-            background-color: white; /* Match header background */
-            border-bottom: 1px solid #eee; /* Separator */
         }
 
         /* Chat container styling */
@@ -87,6 +86,47 @@
             align-self: flex-start;
             border-radius: 25px 25px 25px 0;
         }
+        
+        /* --- NEW: Styling for the Typing Indicator --- */
+        .typing-indicator span {
+            display: inline-block;
+            background-color: #888;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1.0); }
+        }
+
+        /* --- NEW: Styling for Suggested Questions --- */
+        .suggested-questions {
+            padding: 10px 20px;
+            background-color: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+        .suggested-questions button {
+            background-color: #f0f2f5;
+            border: 1px solid #ccc;
+            border-radius: 18px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .suggested-questions button:hover {
+            background-color: #e2e6ea;
+        }
 
         /* Input container */
         .input-container {
@@ -111,7 +151,7 @@
             box-shadow: 0 0 5px rgba(0, 51, 102, 0.5);
         }
 
-        button {
+        #sendButton {
             background-color: #003366;
             color: white;
             border: none;
@@ -124,98 +164,127 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 44px; /* Fixed width */
-            height: 44px; /* Fixed height */
+            width: 44px;
+            height: 44px;
             transition: background-color 0.3s ease;
         }
-
-        button:hover {
-            background-color: #0055a4;
-        }
-
-        button:active {
-            background-color: #002a52;
-        }
-
-        button svg {
-            width: 20px;
-            height: 20px;
-            fill: white;
-        }
+        #sendButton:hover { background-color: #0055a4; }
     </style>
 </head>
 <body>
-    <!-- This now correctly points to the image in the 'static' folder -->
-    <img src="{{ url_for('static', filename='ksit_logo.jpg') }}" alt="KSIT Logo" class="logo">
-
-    <h1>Kammavari Sangham (R) 1952, K.S.Group of Institutions</h1>
-    <h2>K. S. INSTITUTE OF TECHNOLOGY</h2>
-    <div class="address">
-        No.14, Raghuvanahalli, Kanakapura Road, Bengaluru - 560109,  9900710055 <br>
-        Affiliated to VTU, Belagavi & Approved by AICTE, New Delhi, <span>Accredited by NBA, NAAC & IEI</span>
+    <div class="header-container">
+        <img src="{{ url_for('static', filename='ksit_logo.jpg') }}" alt="KSIT Logo" class="logo">
+        <h1>Kammavari Sangham (R) 1952, K.S.Group of Institutions</h1>
+        <h2>K. S. INSTITUTE OF TECHNOLOGY</h2>
+        <div class="address">
+            No.14, Raghuvanahalli, Kanakapura Road, Bengaluru - 560109,  9900710055 <br>
+            Affiliated to VTU, Belagavi & Approved by AICTE, New Delhi, <span>Accredited by NBA, NAAC & IEI</span>
+        </div>
     </div>
 
     <div id="chat"></div>
 
+    <!-- --- NEW: Suggested Questions Buttons --- -->
+    <div class="suggested-questions">
+        <button onclick="sendSuggestedQuestion('What courses are offered?')">Courses Offered</button>
+        <button onclick="sendSuggestedQuestion('Tell me about placements')">Placements</button>
+        <button onclick="sendSuggestedQuestion('What are the facilities?')">Facilities</button>
+        <button onclick="sendSuggestedQuestion('Contact Information')">Contact Info</button>
+    </div>
+
     <div class="input-container">
         <input type="text" id="userInput" placeholder="Type your message here..." />
-        <button onclick="sendMessage()">
-            <svg viewBox="0 0 24 24">
+        <button id="sendButton" onclick="sendMessage()">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="white">
                 <path d="M2.01 21L23 12 2.01 3v7l15 2-15 2z"></path>
             </svg>
         </button>
     </div>
 
     <script>
-        // Allow sending message by pressing Enter key
-        document.getElementById("userInput").addEventListener("keyup", function(event) {
+        const chatBox = document.getElementById("chat");
+        const userInput = document.getElementById("userInput");
+
+        // --- NEW: Add Initial Welcome Message when the page loads ---
+        window.addEventListener('load', () => {
+            const welcomeMessage = "Welcome to the KSIT Virtual Assistant! How can I help you today?";
+            const botDiv = document.createElement('div');
+            botDiv.className = 'message bot-message';
+            botDiv.textContent = welcomeMessage;
+            chatBox.appendChild(botDiv);
+        });
+        
+        // Listen for "Enter" key press
+        userInput.addEventListener("keyup", function(event) {
             if (event.key === "Enter") {
                 sendMessage();
             }
         });
 
-        // IMPROVEMENT: This function now creates and appends elements instead of using innerHTML +=
+        // --- NEW: Function for Suggested Questions ---
+        function sendSuggestedQuestion(question) {
+            // Display the question as if the user typed it
+            const userDiv = document.createElement('div');
+            userDiv.className = 'message user-message';
+            userDiv.textContent = question;
+            chatBox.appendChild(userDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            
+            // Send the question to the bot
+            getBotResponse(question);
+        }
+
         async function sendMessage() {
-            const userInput = document.getElementById("userInput");
             const userMessage = userInput.value;
             if (!userMessage.trim()) return;
 
-            const chatBox = document.getElementById("chat");
-
-            // Create and append user message
+            // Display user message
             const userDiv = document.createElement('div');
             userDiv.className = 'message user-message';
             userDiv.textContent = userMessage;
             chatBox.appendChild(userDiv);
-
-            // Scroll to the bottom
             chatBox.scrollTop = chatBox.scrollHeight;
-
+            
             // Clear input field
             userInput.value = "";
+            
+            // Get response from bot
+            getBotResponse(userMessage);
+        }
+
+        async function getBotResponse(message) {
+            // --- NEW: Show Typing Indicator ---
+            const typingIndicator = document.createElement('div');
+            typingIndicator.className = 'message bot-message typing-indicator';
+            typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+            typingIndicator.id = 'typing-indicator';
+            chatBox.appendChild(typingIndicator);
+            chatBox.scrollTop = chatBox.scrollHeight;
 
             try {
-                // The fetch request is correct and now matches the backend
-                const response = await fetch(`/get?msg=${encodeURIComponent(userMessage)}`);
+                const response = await fetch(`/get?msg=${encodeURIComponent(message)}`);
                 const data = await response.json();
 
-                // Create and append bot message
+                // --- NEW: Remove Typing Indicator ---
+                document.getElementById('typing-indicator').remove();
+
+                // Display bot message
                 const botDiv = document.createElement('div');
                 botDiv.className = 'message bot-message';
                 botDiv.textContent = data.response;
                 chatBox.appendChild(botDiv);
-
-                // Scroll to the bottom again
-                chatBox.scrollTop = chatBox.scrollHeight;
-
             } catch (error) {
                 console.error("Error fetching bot response:", error);
                 
-                // Display an error message in the chat
+                // --- NEW: Remove Typing Indicator on error too ---
+                document.getElementById('typing-indicator')?.remove();
+
                 const errorDiv = document.createElement('div');
                 errorDiv.className = 'message bot-message';
-                errorDiv.textContent = 'Sorry, something went wrong. Please try again later.';
+                errorDiv.textContent = 'Sorry, something went wrong. Please try again.';
                 chatBox.appendChild(errorDiv);
+            } finally {
+                chatBox.scrollTop = chatBox.scrollHeight;
             }
         }
     </script>

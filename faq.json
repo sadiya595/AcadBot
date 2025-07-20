@@ -1,0 +1,34 @@
+{
+  "questions": [
+    {
+      "tags": ["history", "about", "foundation", "background", "who are you", "tell me about yourself"],
+      "answer": "K.S. Institute of Technology (KSIT) was established on October 11, 1999, by the Kammavari Sangham, a non-profit organization founded in 1952. The institution's primary goal is to provide value-based technical education with a focus on ethical values, employable skills, and research."
+    },
+    {
+      "tags": ["courses", "programs", "degrees", "study", "learn", "academics", "majors", "specializations", "ug", "pg", "undergraduate", "postgraduate", "what can i study"],
+      "answer": "KSIT offers several Undergraduate (B.E.) and Postgraduate (M.Tech, MCA) programs. Key B.E. specializations include Computer Science, Artificial Intelligence & Machine Learning, Electronics & Communication, and Mechanical Engineering. M.Tech is offered in Computer Science, and there is also a Master of Computer Application (MCA) program."
+    },
+    {
+      "tags": ["admissions", "apply", "enroll", "join", "get in", "eligibility", "entrance test", "kcet", "comedk", "application process"],
+      "answer": "Admission to undergraduate courses is primarily through the Common Entrance Test (UGCET) conducted by KEA or the UGET conducted by COMEDK. For management quota seats, ranks from UGCET, UGET, or JEE Main are considered. The basic eligibility for B.E. is passing 10+2 with at least 45% marks in Physics, Mathematics, and Chemistry/Biology/etc."
+    },
+    {
+      "tags": ["facilities", "amenities", "hostel", "library", "sports", "campus", "resources", "infrastructure"],
+      "answer": "KSIT provides comprehensive facilities, including separate hostels for boys and girls, a digital library with over one lakh journals, and modern sports facilities for various games. The campus also has a cafeteria, Wi-Fi, transportation services, and state-of-the-art labs for all departments."
+    },
+    {
+      "tags": ["placements", "jobs", "hiring", "companies", "recruiters", "career", "recruiting"],
+      "answer": "KSIT has a dedicated placement cell that facilitates campus recruitment with top companies like Cognizant, Dell, HCL, Bosch, Toyota, TCS, Infosys, and Amazon. The cell organizes pre-placement training, workshops, and industrial visits to prepare students for the hiring process."
+    },
+   
+    {
+  "tags": ["contact", "address", "phone", "email", "location", "reach you", "find you", "get in touch"],
+  "answer": "You can contact KSIT at: \n- Phone: 9900710055 \n- Email: principal@ksit.edu.in \n- Address: No.14, Raghuvanahalli, Kanakapura Road, Bengaluru - 560109."
+    }
+,
+    {
+      "tags": ["postgraduate admissions", "mtech", "mca", "gate", "pgcet", "masters degree"],
+      "answer": "Admission to M.Tech and MCA programs is through the Post Graduate Common Entrance Test (PGCET) conducted by KEA. For management quota seats, a valid GATE score or PGCET rank is required."
+    }
+  ]
+}
